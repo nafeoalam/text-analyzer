@@ -1,9 +1,25 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Query,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { TextAnalyzerService } from './text-analyzer.service';
 
 @Controller('analyze')
 export class TextAnalyzerController {
   constructor(private readonly textAnalyzerService: TextAnalyzerService) {}
+
+  @Post('/upload')
+  @UseInterceptors(FileInterceptor('textFile'))
+  async handleFileUpload(@UploadedFile() file: Express.Multer.File) {
+    // Assuming the file is plain text and needs to be converted from buffer to string
+    const content = file.buffer.toString('utf-8');
+    return this.textAnalyzerService.analyzeText(content);
+  }
 
   @Get('/words')
   async getWordCountFromFile(@Query('filePath') filePath: string) {
