@@ -3,6 +3,14 @@
 
 Using [Nest](https://github.com/nestjs/nest) framework with TypeScript
 
+## Tech Stack
+- NestJs 
+- TypeScript
+- NestJs Testing Tool
+- Neon PostgreSQL
+- HTML
+- CSS
+
 ## Installation
 
 ```bash
