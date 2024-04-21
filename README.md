@@ -43,12 +43,18 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
-## View
+## View 
 
 UI: `localhost:3000`
 
-- API to return the number of words : `/analyze/words`
-- API to return the number of characters : `/analyze/characters`
-- API to return the number of sentences : `/analyze/sentences`
-- API to return the number of paragraphs : `/analyze/paragraphs`
-- API to return the longest words in paragraphs : `/analyze/longest-words`
+- API to return the number of words : `GET /analyze/words`
+- API to return the number of characters : `GET /analyze/characters`
+- API to return the number of sentences : `GET /analyze/sentences`
+- API to return the number of paragraphs : `GET /analyze/paragraphs`
+- API to return the longest words in paragraphs : `GET /analyze/longest-words`
+
+- API to upload a text file and which returns an analysis of the text content. : 
+    - `POST /analyze/upload`
+    - `Payload: textFile (type: file)`
+
+- API to retrieve all previously analyzed text records. : `GET /analyze/all-records`
