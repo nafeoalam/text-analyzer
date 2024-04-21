@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TextAnalyzerService } from './text-analyzer.service';
 import { promises as fs } from 'fs';
+import { DatabaseService } from '../database/database.service';
 
 jest.mock('fs', () => ({
   promises: {
@@ -17,7 +18,7 @@ describe('TextAnalyzerService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TextAnalyzerService],
+      providers: [TextAnalyzerService, DatabaseService],
     }).compile();
 
     service = module.get<TextAnalyzerService>(TextAnalyzerService);

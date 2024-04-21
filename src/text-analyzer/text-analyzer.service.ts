@@ -1,8 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { promises as fs } from 'fs';
+import { DatabaseService } from '../database/database.service';
+
 
 @Injectable()
 export class TextAnalyzerService {
+  constructor(private databaseService: DatabaseService) {}
+
+  async addResult(
+    fileName: string,
+    wordCount: number,
+    characterCount: number,
+    paragraphCount: number,
+    longestWords: string[],
+  ) {
+    const query = `
+      INSERT INTO analysis_results (file_name, word_count, character_count, paragraph_count, longest_words)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING *;
+    `;
+
+    const formattedArray = `{${longestWords.join(',')}}`; // Formats for PostgreSQL
+    const values = [
+      fileName,
+      wordCount,
+      characterCount,
+      paragraphCount,
+      formattedArray,
+    ];
+
+    return this.databaseService.query(query, values);
+  }
+
+  async getAllResults() {
+    const query = 'SELECT * FROM analysis_results;';
+    return this.databaseService.query(query);
+  }
+
   async readFile(filePath: string): Promise<string> {
     try {
       const text = await fs.readFile(filePath, 'utf-8');
@@ -11,14 +45,22 @@ export class TextAnalyzerService {
       throw new Error('Error reading file: ' + error.message);
     }
   }
-  analyzeText(text: string): any {
-    return {
-      words: this.getWordCount(text),
-      characters: this.getCharacterCount(text),
-      sentences: this.getSentenceCount(text),
-      paragraphs: this.getParagraphCount(text),
+  async analyzeText(text: string, fileName: string): Promise<any> {
+    const payload = {
+      fileName: fileName,
+      wordCount: this.getWordCount(text),
+      characterCount: this.getCharacterCount(text),
+      paragraphCount: this.getParagraphCount(text),
       longestWords: this.getLongestWords(text),
     };
+    const result = await this.addResult(
+      payload.fileName,
+      payload.wordCount,
+      payload.characterCount,
+      payload.paragraphCount,
+      payload.longestWords,
+    );
+    return result;
   }
 
   getWordCount(text: string): number {

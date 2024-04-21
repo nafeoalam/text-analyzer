@@ -38,3 +38,9 @@ $ yarn run test:cov
 ## View
 
 UI: `localhost:3000`
+
+- API to return the number of words : `/analyze/words`
+- API to return the number of characters : `/analyze/characters`
+- API to return the number of sentences : `/analyze/sentences`
+- API to return the number of paragraphs : `/analyze/paragraphs`
+- API to return the longest words in paragraphs : `/analyze/longest-words`

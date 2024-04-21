@@ -9,11 +9,15 @@
 </head>
 
 <body>
-    <div>
+    <div style="width: 50%;">
         <h1>Upload a Text File for Analysis</h1>
         <form action="/analyze/upload" method="post" enctype="multipart/form-data">
             <input type="file" name="textFile" id="textFile" accept=".txt">
             <button type="submit">Analyze</button>
+        </form>
+        <h1>View All Uploads</h1>
+        <form action="/analyze/all-records" method="get">
+            <button type="submit">View</button>
         </form>
     </div>
 </body>

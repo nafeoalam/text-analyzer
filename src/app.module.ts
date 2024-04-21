@@ -5,6 +5,7 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TextAnalyzerModule } from './text-analyzer/text-analyzer.module';
+import { DatabaseService } from './database/database.service';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { TextAnalyzerModule } from './text-analyzer/text-analyzer.module';
     TextAnalyzerModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DatabaseService],
 })
 export class AppModule {}

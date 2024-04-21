@@ -13,12 +13,21 @@ import { TextAnalyzerService } from './text-analyzer.service';
 export class TextAnalyzerController {
   constructor(private readonly textAnalyzerService: TextAnalyzerService) {}
 
+  @Get('/all-records')
+  async getAllRecords() {
+    return this.textAnalyzerService.getAllResults();
+  }
+
   @Post('/upload')
   @UseInterceptors(FileInterceptor('textFile'))
   async handleFileUpload(@UploadedFile() file: Express.Multer.File) {
     // Assuming the file is plain text and needs to be converted from buffer to string
     const content = file.buffer.toString('utf-8');
-    return this.textAnalyzerService.analyzeText(content);
+
+    // Get the original file name from the uploaded file
+    const fileName = file.originalname;
+
+    return this.textAnalyzerService.analyzeText(content, fileName);
   }
 
   @Get('/words')
