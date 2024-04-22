@@ -19,6 +19,8 @@ $ yarn install
 
 ## Running the app
 
+Rename `.env.sample` to `.env`
+
 ```bash
 # development
 $ yarn run start
